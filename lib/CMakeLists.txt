@@ -115,8 +115,12 @@ endif()
 
 target_include_directories(chiaki-lib PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
-find_package(Threads REQUIRED)
-target_link_libraries(chiaki-lib Threads::Threads)
+if (NOT CHIAKI_IS_ESP32)
+	find_package(Threads REQUIRED)
+	target_link_libraries(chiaki-lib Threads::Threads)
+else()
+	set(Threads_FOUND ON)
+endif()
 
 if(CHIAKI_LIB_ENABLE_MBEDTLS)
 	# provided by mbedtls-static (mbedtls-devel)
